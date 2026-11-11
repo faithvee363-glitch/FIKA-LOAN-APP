@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>FIKA Loan App</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=Inter:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --deep: #0A2F2C;
+            --teal: #14786B;
+            --mint: #DDF3EC;
+            --gold: #F4B63F;
+            --bg: #F3F6F5;
+            --card: #fff;
+            --ink: #12211F;
+            --mute: #5E706D;
+            --line: #DCE5E3;
+            --bad: #C2410C;
+            --r: 14px
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0
+        }
+
+        body {
+            font: 15px/1.5 Inter, system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--ink)
+        }
+
+        h1,
+        h2,
+        h3,
+        .num {
+            font-family: Sora, Inter, sans-serif
+        }
+
+        button,
+        input,
+        select {
+            font: inherit
+        }
+
+        :focus-visible {
+            outline: 3px solid var(--gold);
+            outline-offset: 2px
+        }
+
+        .auth {
+            min-height: 100vh;
+            display: grid;
+            grid-template-columns: 1.1fr 1fr
+        }
+
+        .brand {
+            background: var(--deep);
+            color: #fff;
+            padding: 56px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between
+        }
+
+        .logo {
+            font: 700 28px Sora;
+            letter-spacing: .04em
+        }
+
+        .logo i {
+            color: var(--gold);
+            font-style: normal
+        }
+
+        .brand h1 {
+            font-size: 40px;
+            line-height: 1.15;
+            max-width: 12em
+        }
+
+        .brand p {
+            color: #A9C9C3;
+            max-width: 26em;
+            margin-top: 14px
+        }
+
+        .panel {
+            display: grid;
+            place-items: center;
+            padding: 32px
+        }
+
+        .box {
+            width: 100%;
+            max-width: 400px
+        }
+
+        .box h2 {
+            font-size: 26px;
+            margin-bottom: 4px
+        }
+
+        .sub {
+            color: var(--mute);
+            margin-bottom: 22px
+        }
+
+        label {
+            display: block;
+            font-weight: 500;
+            margin: 12px 0 5px
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            background: #fff
+        }
+
+        input:focus {
+            border-color: var(--teal)
+        }
+
+        .btn {
+            width: 100%;
+            margin-top: 20px;
+            padding: 13px;
+            border: 0;
+            border-radius: 10px;
+            background: var(--teal);
+            color: #fff;
+            font-weight: 600;
+            cursor: pointer
+        }
+
+        .btn:hover {
+            background: #0F655A
+        }
+
+        .btn.alt {
+            background: var(--gold);
+            color: var(--deep)
+        }
+
+        .btn.sm {
+            width: auto;
+            margin: 0;
+            padding: 8px 14px
+        }
+
+        .btn.ghost {
+            background: none;
+            color: var(--teal);
+            border: 1px solid var(--line)
+        }
+
+        .link {
+            background: none;
+            border: 0;
+            color: var(--teal);
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 16px
+        }
+
+        .auth-switch {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4px;
+            padding: 4px;
+            margin: 18px 0;
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            background: var(--bg)
+        }
+
+        .auth-switch button {
+            border: 0;
+            border-radius: 7px;
+            padding: 9px;
+            background: transparent;
+            color: var(--mute);
+            cursor: pointer;
+            font-weight: 600
+        }
+
+        .auth-switch button[aria-pressed="true"] {
+            background: #fff;
+            color: var(--deep);
+            box-shadow: 0 1px 3px #12211f1a
+        }
+
+        .err {
+            color: var(--bad);
+            margin-top: 12px;
+            min-height: 20px
+        }
+
+        header {
+            background: var(--deep);
+            color: #fff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 32px
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px
+        }
+
+        nav {
+            display: flex;
+            gap: 6px
+        }
+
+        nav button {
+            background: none;
+            border: 0;
+            color: #A9C9C3;
+            padding: 8px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500
+        }
+
+        nav button.on {
+            background: #fff2;
+            color: #fff
+        }
+
+        main {
+            max-width: 1020px;
+            margin: 28px auto;
+            padding: 0 20px;
+            display: grid;
+            gap: 20px
+        }
+
+        .card {
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-radius: var(--r);
+            padding: 24px
+        }
+
+        .hero {
+            background: var(--deep);
+            color: #fff;
+            border: 0;
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 20px;
+            align-items: end
+        }
+
+        .hero .lbl {
+            color: #A9C9C3
+        }
+
+        .hero .num {
+            font-size: 44px;
+            font-weight: 700;
+            line-height: 1.1
+        }
+
+        .bar {
+            height: 10px;
+            background: #ffffff26;
+            border-radius: 9px;
+            margin-top: 14px;
+            overflow: hidden
+        }
+
+        .bar b {
+            display: block;
+            height: 100%;
+            background: var(--gold);
+            border-radius: 9px;
+            transition: width .6s
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px
+        }
+
+        .big {
+            font: 700 34px Sora;
+            color: var(--teal)
+        }
+
+        .quote {
+            background: var(--mint);
+            border-radius: 12px;
+            padding: 16px;
+            margin-top: 16px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px
+        }
+
+        .quote small {
+            color: var(--mute);
+            display: block
+        }
+
+        .quote strong {
+            font: 600 18px Sora
+        }
+
+        .application-card {
+            width: 100%;
+            max-width: 920px;
+            justify-self: center
+        }
+
+        .application-card {
+            padding: 32px;
+            box-shadow: 0 16px 40px #12211f0d
+        }
+
+        .application-heading {
+            border-bottom: 1px solid var(--line);
+            margin-bottom: 24px;
+            padding-bottom: 20px
+        }
+
+        .eyebrow {
+            color: var(--teal);
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            margin-bottom: 8px
+        }
+
+        .apply-layout {
+            display: grid;
+            grid-template-columns: minmax(0, 1.15fr) minmax(280px, .85fr);
+            gap: 26px;
+            align-items: start
+        }
+
+        .apply-fields,
+        .estimate-panel {
+            min-width: 0
+        }
+
+        .application-card label {
+            margin: 16px 0 7px
+        }
+
+        .amount-wrap {
+            position: relative
+        }
+
+        .amount-wrap span {
+            position: absolute;
+            top: 50%;
+            left: 15px;
+            transform: translateY(-50%);
+            color: var(--mute);
+            font-weight: 600;
+            pointer-events: none
+        }
+
+        .amount-wrap input {
+            padding: 16px 16px 16px 58px;
+            font: 600 22px Sora, Inter, sans-serif;
+            border-radius: 12px
+        }
+
+        .field-hint {
+            color: var(--mute);
+            font-size: 13px;
+            margin-top: 5px
+        }
+
+        .field-error {
+            color: var(--bad);
+            min-height: 20px;
+            font-size: 13px;
+            margin-top: 4px
+        }
+
+        .estimate-panel {
+            background: #f5faf8;
+            border: 1px solid #dcebe6;
+            border-radius: 14px;
+            padding: 20px
+        }
+
+        .estimate-panel h3 {
+            margin-bottom: 4px
+        }
+
+        .estimate-panel > p {
+            color: var(--mute);
+            font-size: 13px
+        }
+
+        .quote {
+            background: #fff;
+            grid-template-columns: 1fr 1fr;
+            padding: 16px;
+            margin-top: 16px
+        }
+
+        .quote strong {
+            display: block;
+            margin-top: 3px
+        }
+
+        .quote-note {
+            grid-column: 1 / -1;
+            color: var(--mute);
+            font-size: 13px;
+            border-top: 1px solid #14786b24;
+            padding-top: 10px
+        }
+
+        .estimate-rate {
+            margin-top: 14px;
+            color: var(--mute);
+            font-size: 13px
+        }
+
+        .disclosure-list {
+            display: grid;
+            gap: 10px;
+            margin: 20px 0
+        }
+
+        .disclosure-list details {
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            padding: 12px 14px;
+            background: #fff
+        }
+
+        .disclosure-list summary {
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--deep)
+        }
+
+        .disclosure-list ul {
+            padding: 12px 0 0 20px;
+            color: var(--mute);
+            font-size: 14px
+        }
+
+        .disclosure-list li + li {
+            margin-top: 6px
+        }
+
+        .agreement-check {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            border-radius: 10px;
+            background: var(--bg);
+            padding: 13px;
+            font-size: 14px
+        }
+
+        .agreement-check input {
+            width: 18px;
+            height: 18px;
+            flex: 0 0 auto;
+            margin-top: 2px;
+            accent-color: var(--teal)
+        }
+
+        .application-card .agreement-check {
+            margin: 14px 0 0
+        }
+
+        .reminder-card {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px
+        }
+
+        .reminder-card p {
+            color: var(--mute);
+            font-size: 13px;
+            margin-top: 4px
+        }
+
+        .reminder-toggle {
+            width: 22px;
+            height: 22px;
+            accent-color: var(--teal)
+        }
+
+        .btn:disabled {
+            opacity: .65;
+            cursor: wait
+        }
+
+        .table-wrap {
+            overflow-x: auto
+        }
+
+        .stats-grid {
+            grid-template-columns: repeat(3, minmax(0, 1fr))
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse
+        }
+
+        th,
+        td {
+            text-align: left;
+            padding: 11px 8px;
+            border-bottom: 1px solid var(--line)
+        }
+
+        th {
+            color: var(--mute);
+            font-weight: 500
+        }
+
+        .tag {
+            padding: 3px 10px;
+            border-radius: 99px;
+            font-size: 13px;
+            font-weight: 600;
+            background: var(--mint);
+            color: var(--teal)
+        }
+
+        .tag.pending {
+            background: #FFF1D1;
+            color: #8A5A00
+        }
+
+        .tag.rejected {
+            background: #FBE3D8;
+            color: var(--bad)
+        }
+
+        .tag.paid {
+            background: #E5E9F8;
+            color: #3446A5
+        }
+
+        .empty {
+            color: var(--mute);
+            padding: 18px 0
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--deep);
+            color: #fff;
+            padding: 12px 20px;
+            border-radius: 10px;
+            opacity: 0;
+            transition: .3s;
+            pointer-events: none
+        }
+
+        .toast.show {
+            opacity: 1
+        }
+
+        .hide {
+            display: none !important
+        }
+
+        @media(max-width:800px) {
+            .auth {
+                grid-template-columns: 1fr
+            }
+
+            .brand {
+                padding: 28px;
+                gap: 28px
+            }
+
+            .brand h1 {
+                font-size: 28px
+            }
+
+            .grid,
+            .hero,
+            .apply-layout {
+                grid-template-columns: 1fr
+            }
+
+            .application-card {
+                padding: 22px
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr
+            }
+
+            header {
+                padding: 12px 16px;
+                flex-wrap: wrap;
+                gap: 10px
+            }
+
+            .header-actions {
+                margin-left: auto
+            }
+
+            nav {
+                order: 3;
+                width: 100%;
+                justify-content: center
+            }
+        }
+
+        @media(prefers-reduced-motion:reduce) {
+            * {
+                transition: none !important
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <section class="auth" id="auth">
+        <div class="brand">
+            <div class="logo">FIKA<i>.</i></div>
+            <div>
+                <h1>Get the money you need, and repay on your terms.</h1>
+                <p>Apply in minutes, see every fee before you agree, and track repayments in one place.</p>
+            </div>
+            <small style="color:#A9C9C3">Transparent estimates. Secure account access.</small>
+        </div>
+        <div class="panel">
+            <div class="box">
+                <form id="loginForm">
+                    <h2 id="loginHeading">Sign in</h2>
+                    <p class="sub" id="loginHint">Welcome back to FIKA Loan App.</p>
+                    <div class="auth-switch" role="group" aria-label="Choose sign-in type">
+                        <button type="button" id="customerLogin" aria-pressed="true"
+                            onclick="setLoginMode('customer')">Customer</button>
+                        <button type="button" id="adminLogin" aria-pressed="false"
+                            onclick="setLoginMode('admin')">Admin</button>
+                    </div>
+                    <label for="lp">Phone number</label><input id="lp" required autocomplete="tel">
+                    <label for="lw">Password</label><input id="lw" type="password" required
+                        autocomplete="current-password">
+                    <button class="btn">Sign in</button>
+                    <button type="button" class="link" onclick="swap(true)">Create an account</button>
+                </form>
+                <form id="regForm" class="hide">
+                    <h2>Create account</h2>
+                    <p class="sub">It takes about two minutes.</p>
+                    <label for="rn">Full name</label><input id="rn" required>
+                    <label for="rp">Phone number</label><input id="rp" required>
+                    <label for="re">Email</label><input id="re" type="email" required>
+                    <label for="ri">National ID number</label><input id="ri" required>
+                    <label for="rw">Password (8+ characters)</label><input id="rw" type="password" minlength="8"
+                        required>
+                    <button class="btn">Create account</button>
+                    <button type="button" class="link" onclick="swap(false)">← Back to sign in</button>
+                </form>
+                <p class="err" id="aerr" role="alert"></p>
+            </div>
+        </div>
+    </section>
+
+    <div id="app" class="hide">
+        <header>
+            <div class="logo">FIKA<i>.</i></div>
+            <nav id="nav"></nav>
+            <div class="header-actions">
+                <button class="btn sm ghost" style="color:#fff;border-color:#ffffff44" onclick="logout()">Back to welcome</button>
+                <button class="btn sm ghost" style="color:#fff;border-color:#ffffff44" onclick="logout()">Sign out</button>
+            </div>
+        </header>
+        <main id="view"></main>
+    </div>
+    <div class="toast" id="toast" role="status"></div>
+
+    <script>
+        const $ = s => document.querySelector(s);
+        let S = { token: sessionStorage.fikaToken || "", role: sessionStorage.fikaRole || "", name: sessionStorage.fikaName || "" }, CFG = { rate: .08, max_loan: 5000, currency: "ZMW" }, loginMode = "customer", ACTIVE_LOAN = null;
+        const money = n => CFG.currency + " " + Number(n).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+        function toast(m) { const t = $("#toast"); t.textContent = m; t.classList.add("show"); setTimeout(() => t.classList.remove("show"), 2800) }
+        async function api(path, method = "GET", body) {
+            let r;
+            try {
+                r = await fetch("/api/" + path, { method, headers: { "Content-Type": "application/json", Authorization: "Bearer " + S.token }, body: body && JSON.stringify(body) });
+            } catch {
+                throw new Error("Unable to reach FIKA. Check your connection and try again.");
+            }
+            const d = await r.json().catch(() => ({}));
+            if (r.status === 401 && S.token) { logout(); }
+            if (!r.ok) throw new Error(d.error || "We couldn't complete that request. Please try again.");
+            return d;
+        }
+        function swap(reg) {
+            $("#loginForm").classList.toggle("hide", reg);
+            $("#regForm").classList.toggle("hide", !reg);
+            $("#aerr").textContent = "";
+            if (!reg) setLoginMode("customer");
+        }
+        function setLoginMode(mode) {
+            loginMode = mode;
+            $("#customerLogin").setAttribute("aria-pressed", String(mode === "customer"));
+            $("#adminLogin").setAttribute("aria-pressed", String(mode === "admin"));
+            $("#loginHeading").textContent = mode === "admin" ? "Admin sign in" : "Sign in";
+            $("#loginHint").textContent = mode === "admin" ? "Use your administrator account to manage applications." : "Welcome back to FIKA Loan App.";
+            $("#aerr").textContent = "";
+        }
+        $("#loginForm").onsubmit = async e => {
+            e.preventDefault(); try {
+                const d = await api("login", "POST", { phone: $("#lp").value, password: $("#lw").value });
+                if (d.role !== loginMode) {
+                    throw new Error(loginMode === "admin" ? "This account does not have administrator access." : "Please use the admin sign-in option for this account.");
+                }
+                S = { token: d.token, role: d.role, name: d.name }; Object.assign(sessionStorage, { fikaToken: d.token, fikaRole: d.role, fikaName: d.name }); start();
+            } catch (x) { $("#aerr").textContent = x.message }
+        };
+        $("#regForm").onsubmit = async e => {
+            e.preventDefault(); try {
+                await api("register", "POST", { full_name: $("#rn").value, phone: $("#rp").value, email: $("#re").value, national_id: $("#ri").value, password: $("#rw").value });
+                swap(false); toast("Account created. Sign in to continue.");
+            } catch (x) { $("#aerr").textContent = x.message }
+        };
+        function logout() {
+            sessionStorage.clear();
+            S = { token: "", role: "", name: "" };
+            ACTIVE_LOAN = null;
+            setLoginMode("customer");
+            $("#app").classList.add("hide");
+            $("#auth").classList.remove("hide");
+        }
+        async function start() {
+            try {
+                CFG = await api("config");
+            } catch (x) {
+                logout();
+                $("#aerr").textContent = x.message;
+                return;
+            }
+            $("#auth").classList.add("hide"); $("#app").classList.remove("hide");
+            const tabs = S.role === "admin" ? [["admin", "Applications"]] : [["home", "My loan"], ["apply", "Apply"], ["history", "History"]];
+            $("#nav").innerHTML = tabs.map(t => `<button data-t="${t[0]}">${t[1]}</button>`).join("");
+            $("#nav").onclick = e => e.target.dataset.t && go(e.target.dataset.t); go(tabs[0][0]);
+            if (!window.reminderTimer) window.reminderTimer = setInterval(checkRepaymentReminder, 60 * 1000);
+        }
+        async function go(t) {
+            document.querySelectorAll("#nav button").forEach(b => b.classList.toggle("on", b.dataset.t === t));
+            try {
+                await ({ home, apply, history, admin })[t]();
+            } catch (x) {
+                $("#view").innerHTML = `<div class="card"><h2>We couldn't load this page</h2><p class="err" role="alert">${esc(x.message)}</p><button class="btn sm" onclick="go('${t}')">Try again</button></div>`;
+            }
+        }
+
+        async function home() {
+            const loans = await api("loans"), a = loans.find(l => l.status === "active"), p = loans.find(l => l.status === "pending");
+            ACTIVE_LOAN = a || null;
+            let h = `<div class="card hero"><div><div class="lbl">Hello, ${esc(S.name.split(" ")[0])}</div>`;
+            if (a) {
+                const bal = a.total_payable - a.amount_paid, pc = Math.min(100, a.amount_paid / a.total_payable * 100);
+                h += `<div class="num">${money(bal)}</div><div class="lbl">left to repay of ${money(a.total_payable)}</div><div class="bar"><b style="width:${pc}%"></b></div></div>
+    <div><button class="btn sm alt" onclick="repayBox(${a.id},${bal})">Make a payment</button></div></div>
+    <div class="grid"><div class="card"><small>Monthly instalment</small><div class="big">${money(a.monthly_installment)}</div></div>
+    <div class="card"><small>Term</small><div class="big">${a.term_months} months</div></div></div>`;
+            } else if (p) { h += `<div class="num">Under review</div><div class="lbl">Your ${money(p.principal)} application is being checked.</div></div></div>` }
+            else { h += `<div class="num">No active loan</div><div class="lbl">You can borrow up to ${money(CFG.max_loan)}.</div></div><div><button class="btn sm alt" onclick="go('apply')">Apply for a loan</button></div></div>` }
+            const reminder = a ? `<div class="card reminder-card"><div><h3>Payment reminders</h3><p>Get a browser notification one day before each monthly instalment. Reminders run while FIKA is open on this device; confirm exact due dates in your final agreement.</p></div><label class="agreement-check"><input class="reminder-toggle" id="reminderToggle" type="checkbox" ${localStorage.getItem(reminderKey(a.id)) === "on" ? "checked" : ""} ${"Notification" in window ? "" : "disabled"}><span>Remind me</span></label></div>` : "";
+            $("#view").innerHTML = h + reminder + `<div id="rb"></div>`;
+            if (a) {
+                $("#reminderToggle").onchange = async event => {
+                    if (!event.target.checked) {
+                        localStorage.removeItem(reminderKey(a.id));
+                        toast("Repayment reminders turned off");
+                        return;
+                    }
+                    if (!("Notification" in window)) {
+                        event.target.checked = false;
+                        toast("This browser does not support notifications");
+                        return;
+                    }
+                    const permission = Notification.permission === "default" ? await Notification.requestPermission() : Notification.permission;
+                    if (permission !== "granted") {
+                        event.target.checked = false;
+                        toast("Allow browser notifications to enable reminders");
+                        return;
+                    }
+                    localStorage.setItem(reminderKey(a.id), "on");
+                    toast("Repayment reminders enabled");
+                    checkRepaymentReminder();
+                };
+            }
+        }
+
+        const reminderKey = id => `fikaReminder:${id}`;
+        function dueDate(loan, installment) {
+            const start = new Date(String(loan.disbursed_at || "").replace(" ", "T"));
+            if (Number.isNaN(start.getTime())) return null;
+            const month = start.getMonth() + installment;
+            const year = start.getFullYear() + Math.floor(month / 12);
+            const targetMonth = month % 12;
+            const day = Math.min(start.getDate(), new Date(year, targetMonth + 1, 0).getDate());
+            return new Date(year, targetMonth, day, 9, 0, 0, 0);
+        }
+        function checkRepaymentReminder() {
+            const loan = ACTIVE_LOAN;
+            if (!loan || localStorage.getItem(reminderKey(loan.id)) !== "on" || !("Notification" in window) || Notification.permission !== "granted") return;
+            const now = new Date();
+            for (let installment = 1; installment <= Number(loan.term_months); installment++) {
+                const due = dueDate(loan, installment);
+                if (!due || due <= now) continue;
+                if (due.getTime() - now.getTime() > 24 * 60 * 60 * 1000) return;
+                const sentKey = `fikaReminderSent:${loan.id}:${due.toISOString().slice(0, 10)}`;
+                if (!localStorage.getItem(sentKey)) {
+                    new Notification("FIKA repayment reminder", { body: `Your monthly instalment of ${money(loan.monthly_installment)} is due tomorrow.` });
+                    localStorage.setItem(sentKey, "on");
+                }
+                return;
+            }
+        }
+        function repayBox(id, bal) {
+            $("#rb").innerHTML = `<div class="card"><h3>Make a payment</h3><label for="ra">Amount (max ${money(bal)})</label>
+ <input id="ra" type="number" step="0.01" max="${bal}" value="${bal}"><button class="btn" onclick="repay(${id})">Pay now</button><p class="err" id="rerr"></p></div>`; $("#ra").focus()
+        }
+        async function repay(id) { try { await api(`loans/${id}/repay`, "POST", { amount: $("#ra").value }); toast("Payment received"); await go("home") } catch (x) { $("#rerr").textContent = x.message } }
+
+        function apply() {
+            const terms = Array.from({ length: 12 }, (_, i) => `<option value="${i + 1}" ${i === 2 ? "selected" : ""}>${i + 1} ${i === 0 ? "month" : "months"}</option>`).join("");
+            $("#view").innerHTML = `<section class="card application-card">
+  <div class="application-heading"><p class="eyebrow">Personal loan</p><h2>Build your loan application</h2><p class="sub">Enter an amount and repayment period to see your full estimate before you apply.</p></div>
+  <div class="apply-layout"><div class="apply-fields">
+  <label for="amountInput">How much would you like to borrow?</label>
+  <div class="amount-wrap"><span>${esc(CFG.currency)}</span><input id="amountInput" type="number" min="50" max="${esc(CFG.max_loan)}" step="0.01" value="${Math.min(500, Number(CFG.max_loan))}" inputmode="decimal" aria-describedby="amountHint amountError" required></div>
+  <p class="field-hint" id="amountHint">Enter an amount from ${money(50)} to ${money(CFG.max_loan)}.</p><p class="field-error" id="amountError" role="alert"></p>
+  <label for="mo">Choose a repayment period</label><select id="mo">${terms}</select>
+  <label for="pu">What is the loan for? <span class="field-hint">(optional)</span></label><input id="pu" maxlength="160" placeholder="For example, business stock or school fees">
+  </div><aside class="estimate-panel"><h3>Your estimated repayment</h3><p>Updates automatically as you enter your loan details.</p>
+  <div class="quote"><div><small>Monthly instalment</small><strong id="qm"></strong></div><div><small>Total to repay</small><strong id="qt"></strong></div>
+  <div><small>Total interest</small><strong id="qi"></strong></div>
+  <p class="quote-note">This is an estimate. Your application is subject to review, and no payment is due unless your loan is approved.</p></div>
+  <p class="estimate-rate">Interest is calculated automatically at ${(CFG.rate * 100).toFixed(1)}% per month, flat. You do not need to choose a rate.</p></aside></div>
+  <div class="disclosure-list">
+  <details><summary>Eligibility</summary><ul><li>You must meet applicable local age and residency requirements.</li><li>Provide accurate contact details and valid identification for review.</li><li>You must be able to afford the repayments; FIKA reviews every application.</li><li>Only one pending or active loan is allowed at a time.</li><li>Apply for ${money(50)} to ${money(CFG.max_loan)} and select a term of 1–12 months.</li></ul></details>
+  <details><summary>Loan terms and conditions</summary><ul><li>The interest rate is set by FIKA and shown in your estimate; interest is calculated using a flat monthly rate.</li><li>Your application is not approval. FIKA will review your details and notify you of its decision.</li><li>Before accepting an approved loan, review the final amount, total interest, instalment amount, repayment dates and total payable.</li><li>Repayments reduce your outstanding balance. Contact FIKA promptly if you expect difficulty paying; no late fee is stated here.</li></ul></details>
+  <details><summary>Agreement and repayment conditions</summary><ul><li>By submitting, you confirm that the information you supplied is accurate and consent to eligibility checks needed to assess your application.</li><li>If approved and you accept the final offer, you agree to repay the disclosed principal and interest on the agreed schedule.</li><li>Do not submit an application unless you understand the estimate and can reasonably meet the repayments. Keep a copy of your final offer.</li></ul></details>
+  </div>
+  <label class="agreement-check" for="acceptTerms"><input id="acceptTerms" type="checkbox"><span>I confirm my information is accurate, I meet the eligibility requirements, and I have read and agree to the application terms above.</span></label>
+  <button class="btn" id="sb" type="button">Submit application</button><p class="err" id="aperr" role="alert"></p></section>`;
+            const upd = () => {
+                const amountInput = $("#amountInput");
+                const amount = Number(amountInput.value);
+                const valid = amountInput.value !== "" && Number.isFinite(amount) && amountInput.validity.valid && amount >= 50 && amount <= Number(CFG.max_loan);
+                $("#amountError").textContent = valid ? "" : `Enter an amount from ${money(50)} to ${money(CFG.max_loan)}.`;
+                $("#sb").disabled = !valid || !$("#acceptTerms").checked;
+                if (valid) {
+                    const months = +$("#mo").value;
+                    const total = Math.round((amount * (1 + CFG.rate * months) + Number.EPSILON) * 100) / 100;
+                    $("#qm").textContent = money(Math.round((total / months + Number.EPSILON) * 100) / 100);
+                    $("#qt").textContent = money(total);
+                    $("#qi").textContent = money(total - amount);
+                } else {
+                    $("#qm").textContent = $("#qt").textContent = $("#qi").textContent = "—";
+                }
+            };
+            $("#amountInput").oninput = upd;
+            $("#mo").onchange = upd;
+            $("#acceptTerms").onchange = upd;
+            upd();
+            $("#sb").onclick = async () => {
+                const button = $("#sb");
+                if (!$("#acceptTerms").checked) {
+                    $("#aperr").textContent = "Please read and accept the application terms to continue.";
+                    return;
+                }
+                button.disabled = true;
+                button.textContent = "Submitting...";
+                $("#aperr").textContent = "";
+                try {
+                    await api("loans", "POST", { amount: $("#amountInput").value, months: $("#mo").value, purpose: $("#pu").value.trim() });
+                    toast("Application submitted");
+                    await go("home");
+                } catch (x) {
+                    $("#aperr").textContent = x.message;
+                } finally {
+                    button.textContent = "Submit application";
+                    if (button.isConnected) upd();
+                }
+            };
+        }
+        async function history() {
+            const l = await api("loans");
+            $("#view").innerHTML = `<div class="card"><h2>Loan history</h2>` + (l.length ? `<table><tr><th>Date</th><th>Amount</th><th>Total</th><th>Paid</th><th>Status</th></tr>` +
+                l.map(x => `<tr><td>${esc(x.created_at.slice(0, 10))}</td><td>${money(x.principal)}</td><td>${money(x.total_payable)}</td><td>${money(x.amount_paid)}</td><td><span class="tag ${x.status}">${x.status}</span></td></tr>`).join("") + `</table>` : `<p class="empty">No loans yet. Apply to get started.</p>`) + `</div>`;
+        }
+        async function admin() {
+            const [l, s] = await Promise.all([api("admin/loans"), api("admin/stats")]);
+            $("#view").innerHTML = `<div class="grid stats-grid"><div class="card"><small>Total disbursed</small><div class="big">${money(s.disbursed)}</div></div>
+  <div class="card"><small>Collected</small><div class="big">${money(s.collected)}</div></div><div class="card"><small>Awaiting review</small><div class="big">${s.pending}</div></div></div>
+  <div class="card"><h2>Loan applications</h2>` + (l.length ? `<div class="table-wrap"><table><thead><tr><th>Customer</th><th>Amount</th><th>Term</th><th>Status</th><th>Actions</th></tr></thead><tbody>`+
+                l.map(x => `<tr><td>${esc(x.full_name)}<br><small>${esc(x.phone)}</small></td><td>${money(x.principal)}</td><td>${x.term_months} mo</td><td><span class="tag ${esc(x.status)}">${esc(x.status)}</span></td>
+  <td>${x.status === "pending" ? `<button class="btn sm" onclick="decide(${x.id},'approve')">Approve</button> <button class="btn sm ghost" onclick="decide(${x.id},'reject')">Reject</button>` : "—"}</td></tr>`).join("") + `</tbody></table></div>` : `<p class="empty">There are no loan applications to review yet.</p>`) + `</div>`;
+        }
+        async function decide(id, a) { try { await api(`admin/loans/${id}/${a}`, "POST"); toast(a === "approve" ? "Approved and disbursed" : "Rejected"); await go("admin") } catch (x) { toast(x.message) } }
+        if (S.token) start();
+    </script>
+</body>
+
+</html>
